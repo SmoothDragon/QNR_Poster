@@ -8,6 +8,7 @@ This is a poster presentation for QIP 2022.
 </a>
 </p>
 
+This was created from the [[https://github.com/anishathalye/gemini][Gemini]] poster theme.
 
 # Gemini [![Build Status](https://github.com/anishathalye/gemini/workflows/CI/badge.svg)](https://github.com/anishathalye/gemini/actions?query=workflow%3ACI)
 
