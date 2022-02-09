@@ -1,0 +1,58 @@
+% Tom Draper - Common LaTeX macros
+%
+% Requires:
+% \usepackage{xspace}
+% \xspaceaddexceptions{]\{\}}
+% \usepackage{complexity}
+%
+% The LaTeX commands provided here are designed to be important in any circumstance.
+% \providecommand provides the given definition if the command is not already defined.
+% \ensuremath allows a command to be used in both normal and math mode.
+
+% Include graphics from subdirectory
+\graphicspath{{graphics/}}
+% Since image.svg is included via \input{image.pdf_tex}, we have to add the path to \input
+\makeatletter
+\def\input@path{{graphics/}}
+\makeatother
+
+% Computer science words should be highlighted differently
+% \providecommand{\csword}[1]{\ensuremath{\text{\tt{}#1}}\xspace}
+\providecommand{\csword}[1]{\ensuremath{\text{\ComplexityFont{#1}}}\xspace}
+
+% Math
+\providecommand{\jacobi}[2]{\left( \displaystyle\frac{#1}{#2} \right)}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Zp}{\Z/p\Z}
+\providecommand{\Qbar}{\ensuremath{\overline{\mathbb{Q}}}}
+% \providecommand{\gl}{\hbox{GL}_n}
+% \providecommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+% \providecommand{\comb}[2]{\left( {#1 \atop #2} \right)}
+% \providecommand{\fract}[1]{\left\{ #1 \right\}}
+
+% Quantum
+\providecommand{\ket}[1]{\left| #1 \right\rangle}
+\providecommand{\bra}[1]{\left\langle #1 \right|}
+\providecommand{\braket}[2]{\left\langle #1 | #2 \right\rangle}
+\providecommand{\qpic}{$\langle\textrm{q}|\textrm{pic}\rangle$\xspace}
+\providecommand{\NOT}{\csword{NOT}}
+\providecommand{\CNOT}{\csword{CNOT}}
+\providecommand{\CNOTs}{\csword{CNOT}{}s\xspace}
+% \providecommand{\CNOTs}{\ensuremath{\text{{\tt{}CNOT}s}}\xspace}
+\providecommand{\CZ}{\csword{CZ}}
+\providecommand{\CCZ}{\csword{CCZ}}
+\providecommand{\XOR}{\csword{XOR}}
+\providecommand{\xT}{\csword{T}}
+
+% Complexity classes
+\providecommand{\xPpoly}{\csword{P/poly}\xspace}
+\providecommand{\xP}{\csword{P}}
+\providecommand{\RP}{\csword{RP}}
+\providecommand{\BPP}{\csword{BPP}}
+\providecommand{\BQP}{\csword{BQP}}
+\providecommand{\EQP}{\csword{EQP}}
+\providecommand{\EQPC}{\ensuremath{\csword{EQP}_\mathbb{C}}\xspace}
+\providecommand{\EQPK}{\ensuremath{\csword{EQP}_K}\xspace}
+\providecommand{\EQPQ}{\ensuremath{\csword{EQP}_{\Qbar}}\xspace}
+\providecommand{\QNR}{\ensuremath{\csword{QNR}}\xspace}
+
