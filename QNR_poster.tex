@@ -22,8 +22,10 @@
 \usepackage{xspace}
 \xspaceaddexceptions{]\{\}}
 \usepackage{complexity}
+\usepackage[clean]{svg}
 \input{draper_commands.tex}
 \providecommand{\QNR}{\csword{QNR}}
+\providecommand{\QNRs}{\csword{QNR}s}
 
 % ====================
 % Lengths
@@ -144,26 +146,43 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
 
 \begin{column}{\colwidth}
 
-  \begin{block}{Phase inversion in the Complex Plane}
-    \begin{figure}
+  \begin{block}{Phase inversion in the \QNR algorithm}
       \centering
+    \begin{figure*}
       \includegraphics[width=.3\colwidth]{41polar_1.pdf}
     \hfill\includegraphics[width=.3\colwidth]{41polar_2.pdf}
     \hfill\includegraphics[width=.3\colwidth]{41polar_3.pdf}
       \caption{Amplitude values for Quadratic Nonresidues for $p=41$}
-    \end{figure}
+    \end{figure*}
 
   \end{block}
 
+  \begin{block}{Creating a NISQ test from the \QNR algorithm}
+    Using a single Jacobi symbol calculation, a quantum computer can find a \QNR 100\% of the time, 
+    whereas a classical computer can only succeed 75\% of the time.
 
-  \begin{block}{A Quantum Algorithm for \QNR}
+    Even if we want to argue for a different classical bound, without a mathematical breakthrough,
+    the success rate of the classical computer will always be less than 100\%.
 
-\begin{figure}[h]
-\centering
-  \includegraphics[scale=3]{gen_alg2.pdf}
-  \caption{Wire diagram for algorithm~\ref{quantum_qnr} for sampling quadratic nonresidues}
-\label{fig:gen_alg}
-\end{figure}
+    A NISQ test based on the \QNR algorithm evaluates two properties:
+    % Furthermore, note that the \QNR algorithm produces an equal superposition of \QNR states.
+    % This allows two separate NISQ tests:
+    \begin{itemize}
+      \item The rate of success.
+      \item The uniformity of the observations.
+    \end{itemize}
+  \end{block}
+
+
+
+  \begin{block}{Designing a \QNR test circuit for $p=17$}
+
+% \begin{figure}[h]
+% \centering
+  % \includegraphics[scale=3]{gen_alg2.pdf}
+  % \caption{Wire diagram for algorithm~\ref{quantum_qnr} for sampling quadratic nonresidues}
+% \label{fig:gen_alg}
+% \end{figure}
   \end{block}
 
 \end{column}
@@ -211,9 +230,12 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
 \separatorcolumn
 
 \begin{column}{\colwidth}
-  \begin{block}{Testing current NISQs (Jun-Aug 2021)}
+  \begin{block}{Test results for $p=17$ \hspace{1ex}  (Jun-Aug 2021)}
     \heading{Success rates of 1000 shot runs}
+    % \raisebox{1mm}[0pt][0pt]{%
+      % \makebox[\colwidth][c]{%
     \includegraphics[width=\colwidth]{nisq_stripplot.pdf}
+    % }}
     \heading{$p$-values of 1000 shot runs}
     \includegraphics[width=\colwidth]{nisq_pvalue_logit.pdf}
     \heading{Success rate vs. $p$-value}
