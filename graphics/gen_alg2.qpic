@@ -1,22 +1,27 @@
 HEADER \usepackage[scaled]{beramono}
 HEADER \usepackage[T1]{fontenc}
+# HEADER \usepackage[sfdefault]{raleway}
+HEADER \usepackage{lato}
 PREAMBLE \providecommand{\bera}[1]{{\fontfamily{fvm}\selectfont{}#1}}
+# PREAMBLE \providecommand{\myfont}[1]{{\fontfamily{fvm}\selectfont{}#1}}
+PREAMBLE \providecommand{\myfont}[1]{{\sffamily #1}}
 PREAMBLE \providecommand{\ket}[1]{\left|#1\right\rangle}
 PREAMBLE \providecommand{\jacobi}{\left[\left(\frac{x}{p}\right)=-1\right]}
 PREAMBLE \providecommand{\ineqInd}{\ensuremath{\left[x<p\right]}}
 VERTICAL
-x0 W width=75  \hspace{.4cm}\ket{0}^{\otimes{}n} \mbox{QNR}
+x0 W width=75  \hspace{.4cm}\ket{0}^{\otimes{}n} \mbox{\myfont{QNR}}
 x1 W \ket{0} \ket{0}
 x2 W \ket{0} \ket{0}
+x3 W type=owire
 
-x0 G:width=25 ${\mbox{\bera{H}}^{\otimes{}n}}$ %% Hadamard transform
-x0 G|:width=60:height=25 $\jacobi$ +x1  %% Jacobi symbol indicator
-x0 G|:width=35:height=20 $\left[x<p\right]$ +x2 %% Indicator for \ineqInd 
-x0 G $x_0$ x1 P:width=20 $-2\theta$ x2 %% Rotate odd QNR less than $p$ by $-2\theta$
-x1 P $\theta$ x2 %% Rotate all QNR less than $p$ by $\theta$  
-x0 |G:width=35:height=20 $\left[x<p\right]$ +x2 %% Uncompute \ineqInd
-x0 |G:width=60:height=25 $\jacobi$ +x1  %% Uncompute Jacobi symbol
-x0 G:width=25 ${\mbox{\bera{H}}^{\otimes{}n}}$ %% Hadamard transform
-x0 G:width=75:height=20 $\ket{0}^{\otimes{}n}\mapsto-\ket{0}^{\otimes{}n}$ %% Grover gate
-x0 G:width=25 ${\mbox{\bera{H}}^{\otimes{}n}}$ %% Hadamard transform
-x0 M %% Measure random QNR
+x0 G:width=25 ${\mbox{\bera{H}}^{\otimes{}n}}$ %% \myfont{Hadamard transform}
+x0 G|:width=60:height=25 $\jacobi$ +x1  %% \myfont{Jacobi symbol indicator}
+x0 G|:width=35:height=20 $\left[x<p\right]$ +x2 %% \myfont{Indicator for \ineqInd }
+x0 G $x_0$ x1 P:width=20 $-2\theta$ x2 %% \myfont{Rotate odd QNR less than $p$ by $-2\theta$}
+x1 P $\theta$ x2 %% \myfont{Rotate all QNR less than $p$ by $\theta$  }
+x0 |G:width=35:height=20 $\left[x<p\right]$ +x2 %% \myfont{Uncompute \ineqInd}
+x0 |G:width=60:height=25 $\jacobi$ +x1  %% \myfont{Uncompute Jacobi symbol}
+x0 G:width=25 ${\mbox{\bera{H}}^{\otimes{}n}}$ %% \myfont{Hadamard transform}
+x0 G:width=75:height=20 $\ket{0}^{\otimes{}n}\mapsto-\ket{0}^{\otimes{}n}$ %% \myfont{Grover gate}
+x0 G:width=25 ${\mbox{\bera{H}}^{\otimes{}n}}$ %% \myfont{Hadamard transform}
+x0 M %% \myfont{Measure random QNR}

@@ -9,7 +9,9 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
+% \usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
+\usepackage[size=custom,width=172.72,height=91.44,scale=1.0]{beamerposter} % 68"x36" inches
+% \usepackage[size=a0]{beamerposter}
 \usetheme{gemini}
 % \usecolortheme{gemini}
 \usecolortheme{mit}
@@ -22,6 +24,7 @@
 \usepackage{xspace}
 \xspaceaddexceptions{]\{\}}
 \usepackage{complexity}
+\usepackage{hyperref}
 \usepackage[clean]{svg}
 \input{draper_commands.tex}
 \providecommand{\QNR}{\csword{QNR}}
@@ -108,19 +111,21 @@ Gauss~\cite{gauss} proved the first nontrivial upper bound for the least quadrat
 Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\alpha$~\cite[p. 33]{1993--cohen}.
   \end{block}
 
-  \begin{exampleblock}{\QNR is in \EQPC}
+  \begin{exampleblock}{QNR is in \EQPC}
+
+    {\bf This new result shows that a quantum computer can solve \QNR in quantum \xP.}
 
 \begin{algorithm}
   \caption{
     % {\bf Exact quantum polynomial time algorithm for finding a quadratic nonresidues for $p\equiv 1 \bmod 8$.}
     Given $p\equiv 1 \bmod 8$, 
-  choose least $n$ where $p<2^n=N$. 
+  choose the smallest $n$ such that $p<2^n=N$. 
     Let $\theta=\mbox{arccos}\left(1-\frac{2^n}{p-1}\right)$, and
     $f(x)=\left[\jacobi{x}{p}=-1\text{ and } 0\le x<p\right]$.
     % Let $n, N, \theta, x_0 \text{ and } f(x)$ be defined as in section~\ref{qc_alg}.
     % Let $f$ be as defined in equation~\eqref{indicator} and $\theta=\mbox{arccos}\left(1-\frac{N}{p-1}\right)$.
 }
-  \label{quantum_qnr}
+  % \label{quantum_qnr}
   \begin{noindqlist}
   \item $[O(n)]$ Apply $H^{\otimes n}$ to \( \ket{0}^{\otimes n} \) (Hadamard transform).
     \[ \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1} \ket{x} \]
@@ -143,13 +148,7 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 \end{algorithm}
 
   \end{exampleblock}
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-
-  \begin{block}{Phase inversion in the \QNR algorithm}
+  \begin{block}{Phase inversion in the QNR algorithm}
       \centering
     \begin{figure*}
       \includegraphics[width=.3\colwidth]{41polar_1.pdf}
@@ -160,41 +159,47 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 
   \end{block}
 
-  \begin{exampleblock}{Creating a NISQ test from the \QNR algorithm}
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{exampleblock}{Creating a NISQ test from the QNR algorithm}
     Using a single Jacobi symbol calculation, a quantum computer can find a \QNR 100\% of the time, 
     whereas a classical computer can only succeed 75\% of the time.
 
     Even if we want to argue for a different classical bound, without a mathematical breakthrough,
     the provable success rate of any algorithm in \xP will always be less than 100\%.
 
-    The \QNR algorithm evaluates two NISQ properties:
+    \heading{The QNR algorithm evaluates two NISQ properties:}
     % Furthermore, note that the \QNR algorithm produces an equal superposition of \QNR states.
     % This allows two separate NISQ tests:
     \begin{itemize}
-      \item The rate of success.
-      \item The uniformity of the observations.
+      \item {\bf The rate of success}
+      \item {\bf The uniformity of the observations}
     \end{itemize}
+
+    \heading{QNR Test Advantages:}
+\begin{itemize}
+  \item {\bf Math inspired and implementation agnostic}
+  \item {\bf Infinite tests with $O(n \log^2 n)$ runtime} 
+  \item {\bf Smallest tests are usable now}
+  \item {\bf Scores algorithmic success instead of a physical property}
+\end{itemize}
   \end{exampleblock}
 
-  \begin{block}{Jacobi symbol permutation for $p=17$}
-  For Fermat primes ($p=2^{2^n}+1$), the inequality indicator $[p<x]$, and be left out since there are only $2^{2^n}$ nonzero residues.
+  \begin{block}{General QNR algorithm}
 
-    Additionally, a permutation of $0,1,\ldots ,2^{2^n}-1$ exists where one of the output wires is the parity bit, and another is the indicator function for the Jacobi symbol.
- $$[\jacobi{x}{17}=-1]=x_0x_1+x_0x_2+x_1x_2+x_1x_3+x_2x_3+x_0x_1x_3$$
-
-      \heading{Indicator permutation for $p=17$}
- \begin{center}
+    \begin{center}
     \begin{figure*}
-      \includegraphics[width=.8\colwidth]{H4_box_qnr17_indicator.pdf}
+      \includegraphics[width=\colwidth]{gen_alg2.pdf}
     \end{figure*}
- \end{center}
+    \end{center}
 
-    Ideally, the Jacobi symbol circuit should be derived from an algorithm, and not by computer search.
-    Given the current shortcomings of current NISQ devices, a full algorithm, even at the $p=17$ level is hard to distinguish from random. 
-
-    As NISQ devices improve, a full algorithmic test for $p=17$ will be meaningful.
-    The next tests of interest will likely be $p=41$ and $p=257$.
-
+    Note than when $p=2^n+1$, the inequality indicator $[x<p]$ can be left out since there are exactly $2^n$ nonzero residues.
+    Additionally, since exactly half of the values less than $2^n$ will be nonresidues, a permutation of $0,1,\ldots ,2^{n}-1$ will exist where one of the output wires is the parity bit, and another is the indicator function for the Jacobi symbol.
+  This only happens for Fermat primes where $p=2^{2^m}+1$.
   \end{block}
 
 
@@ -204,26 +209,47 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 
 \begin{column}{\colwidth}
 
-  \begin{block}{Basic QNR circuit  for $p=17$}
+  \begin{block}{Design a QNR circuit for $p=17$}
+    Since $p=17$ is a Fermat prime, the Jacobi symbol indicator is balanced.
+  % For Fermat primes ($p=2^{2^n}+1$), the inequality indicator $[p<x]$ can be left out since there are exactly $2^{2^n}$ nonzero residues.
 
-      \centering
+    % Additionally, a permutation of $0,1,\ldots ,2^{2^n}-1$ exists where one of the output wires is the parity bit, and another is the indicator function for the Jacobi symbol.
+ $$\left[\jacobi{x}{17}=-1\right]=x_0x_1+x_0x_2+x_1x_2+x_1x_3+x_2x_3+x_0x_1x_3$$
+
+      \heading{Jacobi symbol indicator permutation for $p=17$}
+ \begin{center}
+    \begin{figure*}
+      \includegraphics[width=.9\colwidth]{H4_box_qnr17_indicator.pdf}
+    \end{figure*}
+ \end{center}
+
+    Ideally, the Jacobi symbol circuit should be derived from an algorithm, and not by computer search.
+    Given current qubit fidelity levels, a full algorithm, even the $p=17$ test is too hard for current NISQ devices to escape the noise floor.
+
+    As NISQ devices improve, a full algorithmic test for $p=17$ will be meaningful.
+    The next tests of interest will likely be $p=41$ and $p=257$.
+
+  \heading{Basic QNR circuit  for $p=17$}
+
+  \begin{center}
     \begin{figure*}
       \includegraphics[width=\colwidth]{qnr17_full_circuit.pdf}
       % \caption{QNR test for $p=17$}
     \end{figure*}
+  \end{center}
 
   \end{block}
 
-  \begin{block}{Transpiled subcircuits}
-    Two properties are required circuit to run on all of the tested NISQ devices:
+  \begin{block}{Running the QNR17 circuit on current NISQ devices}
+    Two circuit properties are required to run on all of the tested NISQ devices:
     \begin{itemize}
       \item Only single qubit gates and \CNOTs.
-      \item All \CNOTs are nearest neighbor.
+      \item All \CNOTs must be linear nearest neighbor.
     \end{itemize}
 
     \heading{Inverse indicator permutation decomposition}
     Since a \CNOT or \CCNOT targeting a $\ket{+}$ does nothing, the entire forward pass of the indicator permutation can be removed.
-    The backwards pass was constructed using ideas from Gidney~\cite{3957}. 
+    The backwards pass was constructed using ideas from \cite{3957}. 
       % \caption{Indicator function decomposition}
     \begin{figure*}
       \includegraphics[width=\colwidth]{qnr17_indicator_T.pdf}
@@ -235,16 +261,8 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
     \begin{figure*}
       \includegraphics[width=\colwidth]{zero_flip_p16.pdf}
     \end{figure*}
-
+  The vertical circuit on the far right shows the final transpiled circuit and a hyperlink to a Quirk circuit running it.
   \end{block}
-  \begin{exampleblock}{QNR test advantages}
-\begin{itemize}
-  \item {\bf Implementation agnostic}
-  \item {\bf Infinite tests} 
-  \item {\bf Ease of execution}
-  \item {\bf Better comparison}
-\end{itemize}
-  \end{exampleblock}
 
 
   \begin{block}{References}
@@ -280,12 +298,12 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 
 \begin{column}{\colwidth}
   \begin{block}{Test results for $p=17$ \hspace{1ex}  (Jun-Aug 2021)}
-    \heading{Success rates of 1000 shot runs}
+    \heading{Success rate of 1000 shot runs}
+    \includegraphics[width=\colwidth]{nisq_stripplot.pdf}
     % \raisebox{1mm}[0pt][0pt]{%
       % \makebox[\colwidth][c]{%
-    \includegraphics[width=\colwidth]{nisq_stripplot.pdf}
     % }}
-    \heading{$p$-values of uniformity test for 1000 shot runs}
+    \heading{$p$-value of uniformity test for 1000 shot runs}
     \includegraphics[width=\colwidth]{nisq_pvalue_logit.pdf}
     \heading{Success rate vs. $p$-value}
     \includegraphics[width=\colwidth]{nisq_scatter.pdf}
@@ -298,10 +316,20 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 \separatorcolumn
 
 \begin{column}{\circwidth}
-  \begin{block}{QNR17 Test}
-    \includegraphics[width=1.1\circwidth]{V4_qnr17_nn.pdf}
-  \end{block}
+  \begin{block}{QNR17 test}
+    \begin{center}
+    \includegraphics[width=.94\circwidth]{V4_qnr17_nn.pdf}
 
+    {\bf Quirk circuit}
+    \url{tinyurl.com/3zpvpdft}
+  \includegraphics[scale=.5]{qnr17_quirk_QR.png}
+  % \begin{verbatim}
+  % https://tinyurl.com/3zpvpdft
+  % \end{verbatim}
+  \end{center}
+
+  \end{block}
+  
 \end{column}
 
 \separatorcolumn
