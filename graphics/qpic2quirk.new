@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+
+import lark
+
+circ1 = r'https://algassert.com/quirk#circuit={%22cols%22:[[%22QFT2%22],[%22inputA2%22,1,%22+=A2%22],[%22H%22],[%22X%22,%22X%22],[%22%E2%80%A2%22,%22Z%22,%22%E2%97%A6%22],[%22X%22,%22X%22],[%22H%22]]}'
+
+circ2 = r'''https://algassert.com/quirk#circuit={%22cols%22:[[%22H%22],[%22X%22,%22X%22],[%22%E2%80%A2%22,%22Z%22],[%22X%22,%22X%22],[%22H%22]]}'''
+
+circ3 = r'''https://algassert.com/quirk#circuit={%22cols%22:[[%22H%22,%22H%22,%22Z%22],[%22X%22,%22X%22],[1,1,%22%E2%80%A2%22,%22X%22],[%22%E2%80%A2%22,%22Z%22],[%22X%22,%22X%22],[%22H%22]]}'''
+
+circ4 = r'https://algassert.com/quirk#circuit={%22cols%22:[[%22QFT4%22],[%22inputA4%22,1,1,1,%22+=A4%22],[1,%22X%22,%22%E2%80%A2%22,%22%E2%80%A2%22],[1,%22Z^%C2%BD%22]]}'
+
+with open('quirk.lark') as infile:
+    parser = lark.Lark(infile)
+
+tree = parser.parse(circ1)
+# print(circ2)
+# print(tree.pretty())
+# print(tree)
+
+class MyTransformer(lark.Transformer):
+    def single_qubit_gates(self, items):
+        return '\n'.join(f'{pos} {gate}' for pos,gate in enumerate(items))
+
+    def gate_with_controls(self, items):
+        result = []
+        for pos, item in enumerate(items):
+            if item == '1': 
+                continue
+            if item == 'X':
+                result.append(f'+{pos}')
+                continue
+            if item == 'Z':
+                result.append(f'{pos}')
+                continue
+            if item == 'O':
+                result.append(f'-{pos}')
+                continue
+            result.append( (pos, item) )
+        return ' '.join(result)
+
+    def box_gates(self, items):
+        result = []
+        for pos, item in enumerate(items):
+            if item == '1': 
+                continue
+            qubits = ' '.join(str(i) for i in range(pos, pos+item[1]))
+            result.append(f'{qubits} G \\rotatebox{{90}}{{{item[0]}}}')
+        return '\n'.join(result)
+
+    def box_gate(self, item):
+        name = item[0]
+        qubits = int(item[1])
+        return (name, qubits)
+
+    def S(self, item):
+        return 'S'
+
+    def POS_CONTROL(self, item):
+        return 'Z'
+
+    def NEG_CONTROL(self, item):
+        return 'O'
+
+    def columns(self, items):
+        return '\n'.join(items)
+
+    def slice(self, items):
+        '''
+        slice : single_qubit_gates
+              | gate_with_controls
+              | box_gates
+              | register_gate_pair
+        '''
+        return '\n'.join(items)
+
+    def register_gate_pair(self, items):
+        result = []
+        for pos, item in enumerate(items):
+            if item == '1': 
+                continue
+            qubits = ' '.join(str(i) for i in range(pos, pos+item[1]))
+            result.append(f'{qubits} G \\rotatebox{{90}}{{{item[0]}}}')
+        return ' '.join(result)
+
+    def register_source(self, item):
+        return item[0], int(item[1])
+
+    def register_target(self, item):
+        return item[0]+item[1], int(item[2])
+
+    def circdict(self, item):
+        return item
+
+    def start(self, items):
+        return items[1][0]
+
+
+output = MyTransformer().transform(tree)
+print(output)

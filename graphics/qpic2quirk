@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+
+import sys
+
+print('Convert a qpic file into a HTML address for QUIRK', file=sys.stderr)
+print('Usage: %s file.qpic'%sys.argv[0], file=sys.stderr)
+
+if len(sys.argv) < 2:
+    exit(0)
+
+HEADER='''https://algassert.com/quirk#circuit={%22cols%22:['''
+
+FOOTER='''%22gates%22:[{%22id%22:%22~qcp4%22,%22matrix%22:%22{{1,0},{0,0.9238795+0.3826834i}}%22},{%22id%22:%22~g9h%22,%22matrix%22:%22{{1,0},{0,0.9238795-0.3826834i}}%22}]}
+'''
+def v(xi):
+    return int(xi[-1])
+
+output = []
+with open(sys.argv[1]) as infile:
+    lines = infile.readlines()
+    idx = 0
+    while lines[idx] != '\n':
+        idx += 1
+    wires = 0
+    for line in lines[:idx]:
+        tokens = line.split()
+        if len(tokens)>1 and tokens[1] == 'W':
+            wires += 1
+    for ii in range(idx, len(lines)):
+        items = ['1']*wires
+        if lines[ii] == '\n': continue
+        if lines[ii][0] == '#': continue
+        token = lines[ii].split()
+        if token[0] == 'TOUCH': continue
+        if token[-1] == 'SWAP':
+            output.append('swap %s,%s;'%(v(token[0]), v(token[1])))
+            continue
+        if token[-1] == 'HH':
+            items[v(token[0])] = r'%22H%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[-1] == 'SS':
+            items[v(token[0])] = r'%22Z^%C2%BD%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[-1] == 'SI':
+            items[v(token[0])] = r'%22Z^-%C2%BD%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[-1] == 'TT':
+            items[v(token[0])] = r'%22Z^%C2%BC%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[-1] == 'TI':
+            items[v(token[0])] = r'%22Z^-%C2%BC%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[-1] == 'p16':
+            items[v(token[0])]=r'%22~qcp4%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[-1] == 'p16i':
+            items[v(token[0])]=r'%22~g9h%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if len(token)==2:
+            if token[-1][0] == '+':
+                items[v(token[0])] = r'%22%E2%80%A2%22'
+                items[v(token[1])] = r'%22X%22'
+                output.append('['+','.join(items)+']')
+                continue
+            if token[0][0] == '+':
+                items[v(token[1])] = r'%22%E2%80%A2%22'
+                items[v(token[0])] = r'%22X%22'
+                output.append('['+','.join(items)+']')
+                continue
+        if len(token)==3:
+            if token[0][0] == '+':
+                t, c1, c2 = token[0][1:], token[1], token[2]
+            elif token[1][0] == '+':
+                t, c1, c2 = token[1][1:], token[0], token[2]
+            elif token[2][0] == '+':
+                t, c1, c2 = token[2][1:], token[0], token[1]
+            items[v(c1)] = r'%22%E2%80%A2%22'
+            items[v(c2)] = r'%22%E2%80%A2%22'
+            items[v(t)] = r'%22X%22'
+            output.append('['+','.join(items)+']')
+            continue
+        if token[0][0] == '+':
+            items[v(token[0])] = r'%22X%22'
+            output.append('['+','.join(items)+']')
+            continue
+        output.append(token)
+# print(output)
+print(HEADER+','.join(output)+'],'+FOOTER)
