@@ -1,0 +1,45 @@
+HEADER \usepackage[scaled]{beramono}
+HEADER \usepackage[T1]{fontenc}
+PREAMBLE \providecommand{\bera}[1]{{\fontfamily{fvm}\selectfont{}#1}}
+PREAMBLE \providecommand{\ket}[1]{\left|#1\right\rangle}
+PREAMBLE \providecommand{\jacobi}{\ensuremath{\left[\left(\displaystyle\frac{x}{17}\right)=-1\right]}}
+# s W s\ket{0} \ket{0}
+x0 W \hspace{1em}x_0\ket{0} \ket{y_0} width=20
+x1 W \hspace{1em}x_1\ket{0} \ket{y_1} width=20
+x2 W \hspace{1em}x_2\ket{0} \ket{y_2} width=20
+x3 W \hspace{1em}x_3\ket{0} \ket{y_3} width=20
+x0 G {\bera{H}}
+x1 G {\bera{H}}
+x2 G {\bera{H}}
+x3 G {\bera{H}} 
+MARK jacobi0
+x0 x1 x2 x3 G {$\sigma$} width=25
+@ jacobi0 %% $\jacobi$
+x1 x0
+x1 G {\bera{S}}
+#  x1 G {\bera{S}}  x0
+#  x1 G:color=white:fill=lightgray {\bera{S}}  -x0
+MARK jacobi0
+x0 x1 x2 x3 G {$\sigma^{-1}$} width=25
+@ jacobi0 %% $\jacobi^{-1}$
+# x0 x1 x2 x3 |G {\rotatebox{90}{\jacobi}} width=25
+TOUCH
+x0 G {\bera{H}}
+x1 G {\bera{H}}
+x2 G {\bera{H}}
+x3 G {\bera{H}} 
+MARK flipzero
+x0 G {\bera{X}}
+x1 G {\bera{X}}
+x2 G {\bera{X}}
+x3 G {\bera{X}} 
+x3 G {\bera{Z}} x0 x1 x2
+x0 G {\bera{X}}
+x1 G {\bera{X}}
+x2 G {\bera{X}}
+x3 G {\bera{X}} 
+@ flipzero % $\ket{0000}\mapsto-\ket{0000}$
+x0 G {\bera{H}}
+x1 G {\bera{H}}
+x2 G {\bera{H}}
+x3 G {\bera{H}}

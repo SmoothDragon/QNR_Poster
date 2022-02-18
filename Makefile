@@ -1,9 +1,9 @@
 .PHONY: main clean FORCE
 
-main: poster.pdf
+main: QNR_poster.pdf
 
-poster.pdf: FORCE
-	latexmk -pdflatex='lualatex -interaction nonstopmode' -pdf poster.tex
+# poster.pdf: FORCE
+# 	latexmk -pdflatex='lualatex -interaction nonstopmode' -pdf poster.tex
 
 QNR_poster.pdf: FORCE
 	latexmk -pdflatex='lualatex -interaction nonstopmode' -pdf QNR_poster.tex
