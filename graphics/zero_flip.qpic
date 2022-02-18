@@ -1,0 +1,37 @@
+HEADER \usepackage[scaled]{beramono}
+HEADER \usepackage[T1]{fontenc}
+PREAMBLE \providecommand{\bera}[1]{{\fontfamily{fvm}\selectfont{}#1}}
+PREAMBLE \providecommand{\ket}[1]{\left|#1\right\rangle}
+PREAMBLE \providecommand{\jacobi}{\left[\left(\displaystyle\frac{x}{17}\right)=-1\right]}
+x0 W
+x1 W
+x2 W
+x3 W
+s W \ket{0} \ket{0}
+
+-x0 -x1 -x2 -x3
+=
+x0 G {\bera{X}}
+x1 G {\bera{X}}
+x2 G {\bera{X}}
+x3 G {\bera{X}} 
+x3 G {\bera{Z}} x1 x2 x0
+x0 G {\bera{X}}
+x1 G {\bera{X}}
+x2 G {\bera{X}}
+x3 G {\bera{X}} 
+=
+x0 G {\bera{X}}
+x1 G {\bera{X}}
+x2 G {\bera{X}}
+x3 G {\bera{X}} 
++s x0 x1
+# s G {\bera{H}}
+s G {\bera{Z}} x2 x3
+# s G {\bera{H}}
++s x0 x1
+TOUCH
+x0 G {\bera{X}}
+x1 G {\bera{X}}
+x2 G {\bera{X}}
+x3 G {\bera{X}} 

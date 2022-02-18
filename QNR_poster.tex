@@ -26,6 +26,7 @@
 \input{draper_commands.tex}
 \providecommand{\QNR}{\csword{QNR}}
 \providecommand{\QNRs}{\csword{QNR}s}
+\providecommand{\ii}{\left[\jacobi{x}{17}=-1\right]}
 
 % ====================
 % Lengths
@@ -59,7 +60,7 @@
 % ====================
 
 \footercontent{
-  \href{https://www.example.com}{https://www.example.com} \hfill
+  \href{https://www.ccrwest.org}{https://www.ccrwest.org} \hfill
   Quantum Information Processing 2022, Pasadena, CA \hfill
   \href{mailto:tdraper@ccrwest.org}{tdraper@ccrwest.org}}
 % (can be left out to remove footer)
@@ -103,8 +104,8 @@
     \bigskip
   \end{minipage}
 
-Gauss proved the first nontrivial upper bound for the least quadratic nonresidue showing that $y<2\sqrt{p}+1$.
-The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\alpha$.
+Gauss~\cite{gauss} proved the first nontrivial upper bound for the least quadratic nonresidue showing that $y<2\sqrt{p}+1$.
+Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\alpha$~\cite[p. 33]{1993--cohen}.
   \end{block}
 
   \begin{exampleblock}{\QNR is in \EQPC}
@@ -123,9 +124,9 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
   \begin{noindqlist}
   \item $[O(n)]$ Apply $H^{\otimes n}$ to \( \ket{0}^{\otimes n} \) (Hadamard transform).
     \[ \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1} \ket{x} \]
-  \item $[O(n\log^2 n)]$ Compute Jacobi symbol indicator.
+  \item $[O(n\log^2 n)]$ Compute Jacobi symbol indicator~\cite{harvey:hal-02070778,DBLP:journals/corr/abs-1004-2091}.
 \[\frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x}\ket{\left[\jacobi{x}{p}=-1\right]}\]
-\item $[O(n)]$ Compute the indicator for $[x<p]$.
+\item $[O(n)]$ Compute $[x<p]$ indicator~\cite{comparator}.
 \[\frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x}\ket{\left[\jacobi{x}{p}=-1\right]}\ket{[x<p]}\]
   \item $[O(1)]$ Rotate odd QNRs less than $p$ by $-2\theta$.
   % \item $[O(1)]$ Rotate odd QNRs less than $p$ by $-2\theta$, conditioned on $[x<p],\left[\jacobi{x}{p}=-1\right],$ and $x_0$.
@@ -159,33 +160,43 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
 
   \end{block}
 
-  \begin{block}{Creating a NISQ test from the \QNR algorithm}
+  \begin{exampleblock}{Creating a NISQ test from the \QNR algorithm}
     Using a single Jacobi symbol calculation, a quantum computer can find a \QNR 100\% of the time, 
     whereas a classical computer can only succeed 75\% of the time.
 
     Even if we want to argue for a different classical bound, without a mathematical breakthrough,
     the provable success rate of any algorithm in \xP will always be less than 100\%.
 
-    A NISQ test based on the \QNR algorithm evaluates two properties:
+    The \QNR algorithm evaluates two NISQ properties:
     % Furthermore, note that the \QNR algorithm produces an equal superposition of \QNR states.
     % This allows two separate NISQ tests:
     \begin{itemize}
       \item The rate of success.
       \item The uniformity of the observations.
     \end{itemize}
+  \end{exampleblock}
+
+  \begin{block}{Jacobi symbol permutation for $p=17$}
+  For Fermat primes ($p=2^{2^n}+1$), the inequality indicator $[p<x]$, and be left out since there are only $2^{2^n}$ nonzero residues.
+
+    Additionally, a permutation of $0,1,\ldots ,2^{2^n}-1$ exists where one of the output wires is the parity bit, and another is the indicator function for the Jacobi symbol.
+ $$[\jacobi{x}{17}=-1]=x_0x_1+x_0x_2+x_1x_2+x_1x_3+x_2x_3+x_0x_1x_3$$
+
+      \heading{Indicator permutation for $p=17$}
+ \begin{center}
+    \begin{figure*}
+      \includegraphics[width=.8\colwidth]{H4_box_qnr17_indicator.pdf}
+    \end{figure*}
+ \end{center}
+
+    Ideally, the Jacobi symbol circuit should be derived from an algorithm, and not by computer search.
+    Given the current shortcomings of current NISQ devices, a full algorithm, even at the $p=17$ level is hard to distinguish from random. 
+
+    As NISQ devices improve, a full algorithmic test for $p=17$ will be meaningful.
+    The next tests of interest will likely be $p=41$ and $p=257$.
+
   \end{block}
 
-
-
-  \begin{block}{Designing a \QNR test circuit for $p=17$}
-
-% \begin{figure}[h]
-% \centering
-  % \includegraphics[scale=3]{gen_alg2.pdf}
-  % \caption{Wire diagram for algorithm~\ref{quantum_qnr} for sampling quadratic nonresidues}
-% \label{fig:gen_alg}
-% \end{figure}
-  \end{block}
 
 \end{column}
 
@@ -193,39 +204,75 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
 
 \begin{column}{\colwidth}
 
-  \begin{exampleblock}{A highlighted block containing some math}
+  \begin{block}{Basic QNR circuit  for $p=17$}
 
-    A different kind of highlighted block.
+      \centering
+    \begin{figure*}
+      \includegraphics[width=\colwidth]{qnr17_full_circuit.pdf}
+      % \caption{QNR test for $p=17$}
+    \end{figure*}
 
-    $$
-    \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
-    $$
+  \end{block}
 
-    Interdum et malesuada fames $\{1, 4, 9, \ldots\}$ ac ante ipsum primis in
-    faucibus. Cras eleifend dolor eu nulla suscipit suscipit. Sed lobortis non
-    felis id vulputate.
+  \begin{block}{Transpiled subcircuits}
+    Two properties are required circuit to run on all of the tested NISQ devices:
+    \begin{itemize}
+      \item Only single qubit gates and \CNOTs.
+      \item All \CNOTs are nearest neighbor.
+    \end{itemize}
 
-    \heading{A heading inside a block}
+    \heading{Inverse indicator permutation decomposition}
+    Since a \CNOT or \CCNOT targeting a $\ket{+}$ does nothing, the entire forward pass of the indicator permutation can be removed.
+    The backwards pass was constructed using ideas from Gidney~\cite{3957}. 
+      % \caption{Indicator function decomposition}
+    \begin{figure*}
+      \includegraphics[width=\colwidth]{qnr17_indicator_T.pdf}
+    \end{figure*}
 
-    Praesent consectetur mi $x^2 + y^2$ metus, nec vestibulum justo viverra
-    nec. Proin eget nulla pretium, egestas magna aliquam, mollis neque. Vivamus
-    dictum $\mathbf{u}^\intercal\mathbf{v}$ sagittis odio, vel porta erat
-    congue sed. Maecenas ut dolor quis arcu auctor porttitor.
+    \heading{Grover gate decomposition}
+    A new method was discovered to flip the $\ket{0000}$ state without using an extra qubit.%\cite{QNR_NISQ}
 
-    \heading{Another heading inside a block}
+    \begin{figure*}
+      \includegraphics[width=\colwidth]{zero_flip_p16.pdf}
+    \end{figure*}
 
-    Sed augue erat, scelerisque a purus ultricies, placerat porttitor neque.
-    Donec $P(y \mid x)$ fermentum consectetur $\nabla_x P(y \mid x)$ sapien
-    sagittis egestas. Duis eget leo euismod nunc viverra imperdiet nec id
-    justo.
-
+  \end{block}
+  \begin{exampleblock}{QNR test advantages}
+\begin{itemize}
+  \item {\bf Implementation agnostic}
+  \item {\bf Infinite tests} 
+  \item {\bf Ease of execution}
+  \item {\bf Better comparison}
+\end{itemize}
   \end{exampleblock}
 
+
   \begin{block}{References}
+    % \nocite{*}
+    % \footnotesize{\bibliographystyle{abbrv}\bibliography{QNR_poster}}
+    {\fontsize{15pt}{15pt}\selectfont
+\begin{thebibliography}{100} % 100 is a random guess of the total number of
+%references
+  \bibitem{gauss} Carl Friedrich Gauss, \emph{Disquisitones arithmeticae}, 1801.
+  \bibitem{1993--cohen} H. Cohen, \emph{A course in computational algebraic number theory}, Springer-Verlag, Berlin, 1993.
 
-    \nocite{*}
-    \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
+  \bibitem{harvey:hal-02070778} D. Harvey, J. Van Der Hoeven, \emph{{Integer multiplication in time $O(n \log n)$}}, {{Annals of Mathematics}}, {{Princeton University, Department of Mathematics}}, 2020.
 
+\bibitem{DBLP:journals/corr/abs-1004-2091} R. P. Brent and P. Zimmerman, \emph{An {$O(M(n) \log n)$} algorithm for the Jacobi symbol}, {CoRR}, 2010.
+
+    \bibitem{comparator} {D. Oliveira, R. Ramos},\emph{Quantum bit string comparator: Circuits and applications}, {Quantum Computers and Computing}, Vol.7, 2007.
+  \bibitem{3957} C. Gidney, \emph{Minimum number of CNOTs for Toffoli with non-adjacent controls (answer:3964)}, {https://quantumcomputing.stackexchange.com}, 2018. 
+% \bibitem{Boney96} Boney, L., Tewfik, A.H., and Hamdy, K.N., ``Digital
+% Watermarks for Audio Signals," \emph{Proceedings of the Third IEEE
+% International Conference on Multimedia}, pp. 473-480, June 1996.
+% \bibitem{MG} Goossens, M., Mittelbach, F., Samarin, \emph{A LaTeX
+% Companion}, Addison-Wesley, Reading, MA, 1994.
+% \bibitem{HK} Kopka, H., Daly P.W., \emph{A Guide to LaTeX},
+% Addison-Wesley, Reading, MA, 1999.
+% \bibitem{Pan} Pan, D., ``A Tutorial on MPEG/Audio Compression," \emph{IEEE
+% Multimedia}, Vol.2, pp.60-74, Summer 1998.
+\end{thebibliography}
+}
   \end{block}
 
 \end{column}
@@ -238,7 +285,7 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
       % \makebox[\colwidth][c]{%
     \includegraphics[width=\colwidth]{nisq_stripplot.pdf}
     % }}
-    \heading{$p$-values of 1000 shot runs}
+    \heading{$p$-values of uniformity test for 1000 shot runs}
     \includegraphics[width=\colwidth]{nisq_pvalue_logit.pdf}
     \heading{Success rate vs. $p$-value}
     \includegraphics[width=\colwidth]{nisq_scatter.pdf}
@@ -246,20 +293,13 @@ The current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero 
   \end{block}
 
 
-  \begin{block}{References}
-
-    \nocite{*}
-    \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
-
-  \end{block}
-
 \end{column}
 
 \separatorcolumn
 
 \begin{column}{\circwidth}
-  \begin{block}{Circuit}
-    \includegraphics[width=\circwidth]{V4_qnr17_nn.pdf}
+  \begin{block}{QNR17 Test}
+    \includegraphics[width=1.1\circwidth]{V4_qnr17_nn.pdf}
   \end{block}
 
 \end{column}
