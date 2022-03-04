@@ -10,4 +10,8 @@ This is a poster presentation for QIP 2022.
 
 This was created from the [Gemini](https://github.com/anishathalye/gemini) poster theme.
 
+# ArXiv
+
+The pre-print is available [here](https://arxiv.org/abs/2110.09483).
+
 
