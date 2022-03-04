@@ -10,7 +10,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 % \usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
-\usepackage[size=custom,width=172.72,height=91.44,scale=1.0]{beamerposter} % 68"x36" inches
+% \usepackage[size=custom,width=172.72,height=91.44,scale=1.0]{beamerposter} % 68"x36" inches
+\usepackage[size=custom,width=152.4,height=91.44,scale=1.0]{beamerposter} % 60"x36" inches
+% \usepackage[size=custom,width=152.4,height=106.68,scale=1.0]{beamerposter} % 60"x42" inches
 % \usepackage[size=a0]{beamerposter}
 \usetheme{gemini}
 % \usecolortheme{gemini}
@@ -113,7 +115,7 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 
   \begin{exampleblock}{QNR is in \EQPC}
 
-    {\bf This new result shows that a quantum computer can solve \QNR in quantum \xP.}
+    {\bf We prove a new result showing a quantum computer can solve \QNR in quantum \xP.}
 
 \begin{algorithm}
   \caption{
@@ -154,7 +156,8 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
       \includegraphics[width=.3\colwidth]{41polar_1.pdf}
     \hfill\includegraphics[width=.3\colwidth]{41polar_2.pdf}
     \hfill\includegraphics[width=.3\colwidth]{41polar_3.pdf}
-      \caption{Amplitude values for Quadratic Nonresidues for $p=41$}
+      % \caption{Amplitude values for Quadratic Nonresidues for $p=41$}
+      \caption{Quadratic nonresidue amplitude progression for $p=41$}
     \end{figure*}
 
   \end{block}
@@ -166,11 +169,14 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 \begin{column}{\colwidth}
 
   \begin{exampleblock}{Creating a NISQ test from the QNR algorithm}
-    Using a single Jacobi symbol calculation, a quantum computer can find a \QNR 100\% of the time, 
-    whereas a classical computer can only succeed 75\% of the time.
+    \heading{A quantum computer can create a probability distribution exclusively over quadratic nonresidues in polynomial time.}
+    A classical algorithm capable of the same would be a mathematical breakthrough.
 
-    Even if we want to argue for a different classical bound, without a mathematical breakthrough,
-    the provable success rate of any algorithm in \xP will always be less than 100\%.
+    Using a single Jacobi symbol calculation, a quantum computer can find a \QNR 100\% of the time, 
+    whereas the classical computer success rate is bounded away from $1$. % (Probably $\frac{3}{4}$).
+
+    % Even if we want to argue for a different classical bound, without a mathematical breakthrough,
+    % the provable success rate of any algorithm in \xP will always be less than 100\%.
 
     \heading{The QNR algorithm evaluates two NISQ properties:}
     % Furthermore, note that the \QNR algorithm produces an equal superposition of \QNR states.
@@ -209,7 +215,8 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 
 \begin{column}{\colwidth}
 
-  \begin{block}{Design a QNR circuit for $p=17$}
+  \begin{block}{What can we test now?}
+  \heading{Design a QNR test circuit for $p=17$}
     Since $p=17$ is a Fermat prime, the Jacobi symbol indicator is balanced.
   % For Fermat primes ($p=2^{2^n}+1$), the inequality indicator $[p<x]$ can be left out since there are exactly $2^{2^n}$ nonzero residues.
 
@@ -223,10 +230,11 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
     \end{figure*}
  \end{center}
 
-    Ideally, the Jacobi symbol circuit should be derived from an algorithm, and not by computer search.
-    Given current qubit fidelity levels, a full algorithm, even the $p=17$ test is too hard for current NISQ devices to escape the noise floor.
+    Ideally, the Jacobi symbol circuit should be produced by an algorithm, and not by computer search.
+    We accept this shortcoming in the near term, since current NISQ devices fail to escape the noise floor using the full algorithm for $p=17$.
+    % This is a shortcoming of current devices, not the test itself.
 
-    As NISQ devices improve, a full algorithmic test for $p=17$ will be meaningful.
+    As NISQ devices improve, a full algorithmic test for $p=17$ will be preferred.
     The next tests of interest will likely be $p=41$ and $p=257$.
 
   \heading{Basic QNR circuit  for $p=17$}
@@ -256,12 +264,14 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
     \end{figure*}
 
     \heading{Grover gate decomposition}
-    A new method was discovered to flip the $\ket{0000}$ state without using an extra qubit.%\cite{QNR_NISQ}
+    We discovered a new circuit to flip the $\ket{0000}$ state without using an extra qubit.%\cite{QNR_NISQ}
 
     \begin{figure*}
       \includegraphics[width=\colwidth]{zero_flip_p16.pdf}
     \end{figure*}
-  The vertical circuit on the far right shows the final transpiled circuit and a hyperlink to a Quirk circuit running it.
+
+    The {\bf QNR17 test} (far right), produces an equal superposition of the quadratic nonresidues for $p=17$, namely $3,5,6,7,10,11,12,14$.
+  % The vertical circuit on the far right shows the final transpiled circuit and a hyperlink to a Quirk circuit running it.
   \end{block}
 
 
@@ -298,15 +308,23 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 
 \begin{column}{\colwidth}
   \begin{block}{Test results for $p=17$ \hspace{1ex}  (Jun-Aug 2021)}
+    \noindent
+    \begin{center}
     \heading{Success rate of 1000 shot runs}
-    \includegraphics[width=\colwidth]{nisq_stripplot.pdf}
-    % \raisebox{1mm}[0pt][0pt]{%
-      % \makebox[\colwidth][c]{%
-    % }}
+    \vspace*{-5mm}
+    \noindent
+  \begin{figure*}
+    \includegraphics[width=1.1\colwidth]{nisq_stripplot.pdf}
+  \end{figure*}
+\vspace{10mm}
     \heading{$p$-value of uniformity test for 1000 shot runs}
     \includegraphics[width=\colwidth]{nisq_pvalue_logit.pdf}
+
+\vspace{25mm}
+\noindent
     \heading{Success rate vs. $p$-value}
     \includegraphics[width=\colwidth]{nisq_scatter.pdf}
+    \end{center}
 
   \end{block}
 
@@ -318,14 +336,12 @@ Current best analytic tools prove that $y < C\cdot p^\alpha$ for a non-zero $\al
 \begin{column}{\circwidth}
   \begin{block}{QNR17 test}
     \begin{center}
-    \includegraphics[width=.94\circwidth]{V4_qnr17_nn.pdf}
+    \includegraphics[width=\circwidth]{V4_qnr17_nn.pdf}
+    \vspace{10mm}
+    \noindent
 
-    {\bf Quirk circuit}
-    \url{tinyurl.com/3zpvpdft}
-  \includegraphics[scale=.5]{qnr17_quirk_QR.png}
-  % \begin{verbatim}
-  % https://tinyurl.com/3zpvpdft
-  % \end{verbatim}
+    \url{tinyurl.com/yckbk69n}
+  \includegraphics[width=\circwidth]{QIP2022_QR.png}
   \end{center}
 
   \end{block}
