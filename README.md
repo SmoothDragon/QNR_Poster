@@ -14,4 +14,7 @@ This was created from the [Gemini](https://github.com/anishathalye/gemini) poste
 
 The pre-print is available [here](https://arxiv.org/abs/2110.09483).
 
+# How do you make those circuit diagrams?
+
+Diagrams can be built programmatically with [<q|pic>](https://github.com/qpic/qpic).
 
